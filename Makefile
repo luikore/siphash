@@ -1,4 +1,9 @@
-deafult: gcc64
+deafult: build
+
+build:
+	cc -c -march=native siphash_opt.c
+	ar rcs libsiphash.a siphash_opt.o
+
 gcc64: gcc64_siphash gcc64_siphash_sse2 gcc64_siphash_ssse3
 icc64: icc64_siphash icc64_siphash_sse2 icc64_siphash_ssse3
 gcc32: gcc32_siphash gcc32_siphash_sse2 gcc32_siphash_ssse3
@@ -32,5 +37,6 @@ icc32_siphash_sse2:
 icc32_siphash_ssse3:
 	icc siphash_ssse3.c test.c -m32 -mssse3 -O3 -o test_icc32_siphash_ssse3 -Wall
 
+.PHONY: clean
 clean:
-	rm -f test_*
+	rm -f test_* *.o *.a
